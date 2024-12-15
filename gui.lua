@@ -154,6 +154,7 @@ emergencyBrakeButtonCorner.Parent = emergencyBrakeButton
 
 local function activateEmergencyBrake()
 	player.Character.Humanoid.WalkSpeed = 0
+	messageLabel.Position = UDim2.new(0.1, 0, -0.1, 0)
 	messageLabel.Text = "EMERGENCY BRAKE"
 	print(player.Name .. " has activated Emergency Brake! ")
 end
@@ -177,6 +178,7 @@ submitButton.MouseButton1Click:Connect(function()
 
 	if speed then
 		player.Character.Humanoid.WalkSpeed = speed
+		messageLabel.Position = UDim2.new(0.1, 0, -0.1, 0)
 		messageLabel.Text = "Walkspeed set to: " .. speed
 		print(player.Name .. " Has set they're speed to " .. speed)
 	else
