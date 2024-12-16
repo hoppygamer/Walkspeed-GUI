@@ -153,10 +153,14 @@ emergencyBrakeButtonCorner.CornerRadius = UDim.new(0, 20)
 emergencyBrakeButtonCorner.Parent = emergencyBrakeButton
 
 local function activateEmergencyBrake()
-	player.Character.Humanoid.WalkSpeed = 0
-	messageLabel.Position = UDim2.new(0.1, 0, -0.1, 0)
-	messageLabel.Text = "EMERGENCY BRAKE"
-	print(player.Name .. " has activated Emergency Brake! ")
+	local player = game.Players.LocalPlayer
+	local character = player.Character
+	if character and character:FindFirstChild("Humanoid") then
+		character.Humanoid.WalkSpeed = 0
+		messageLabel.Position = UDim2.new(0.1, 0, -0.1, 0)
+		messageLabel.Text = "EMERGENCY BRAKE"
+		print(player.Name .. " has activated Emergency Brake! ")
+	end
 end
 
 local UserInputService = game:GetService("UserInputService")
@@ -177,11 +181,33 @@ submitButton.MouseButton1Click:Connect(function()
 	local speed = tonumber(input)
 
 	if speed then
-		player.Character.Humanoid.WalkSpeed = speed
-		messageLabel.Position = UDim2.new(0.1, 0, -0.1, 0)
-		messageLabel.Text = "Walkspeed set to: " .. speed
-		print(player.Name .. " Has set they're speed to " .. speed)
+		local character = player.Character
+		if character and character:FindFirstChild("Humanoid") then
+			character.Humanoid.WalkSpeed = speed
+			messageLabel.Position = UDim2.new(0.1, 0, -0.1, 0)
+			messageLabel.Text = "Walkspeed set to: " .. speed
+			print(player.Name .. " Has set their speed to " .. speed)
+		end
 	else
 		messageLabel.Text = "Invalid input. Please enter a valid number."
+	end
+end)
+
+
+local walkspeedLabel = Instance.new("TextLabel")
+walkspeedLabel.Parent = screenGui
+walkspeedLabel.Size = UDim2.new(0, 200, 0, 50)
+walkspeedLabel.Position = UDim2.new(0.5, -100, 0.1, 0)
+walkspeedLabel.Text = "Current Walkspeed: 0"
+walkspeedLabel.BackgroundTransparency = 1
+walkspeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+walkspeedLabel.Font = Enum.Font.SourceSans
+walkspeedLabel.TextSize = 18
+
+game:GetService("RunService").Heartbeat:Connect(function()
+	local character = player.Character
+	if character and character:FindFirstChild("Humanoid") then
+		local humanoid = character.Humanoid
+		walkspeedLabel.Text = "Current Walkspeed: " .. humanoid.WalkSpeed
 	end
 end)
